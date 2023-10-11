@@ -30,15 +30,30 @@ impl Person {
     }
 }
 
-struct CaloricIntake {
+pub struct CaloricIntake {
     min: f32,
     max: f32,
 }
 
-struct MacroSplit {
+impl CaloricIntake {
+    pub fn new(min: f32, max: f32) -> CaloricIntake {
+        CaloricIntake { min, max }
+    }
+}
+pub struct MacroSplit {
     carbs: f32,
     protein: f32,
     fat: f32,
+}
+
+impl MacroSplit {
+    pub fn new(carbs: f32, protein: f32, fat: f32) -> MacroSplit {
+        MacroSplit {
+            carbs,
+            protein,
+            fat,
+        }
+    }
 }
 
 pub enum Gender {
@@ -54,13 +69,13 @@ pub enum Activity {
     SuperActive,
 }
 
-enum Goal {
+pub enum Goal {
     WeightLoss,
     Maintenance,
     GainWeight,
 }
 
-enum Diet {
+pub enum Diet {
     Balanced,
     LowCarb,
     HighCarb,
@@ -144,7 +159,7 @@ impl fmt::Display for MacroSplit {
 }
 
 impl MacroSplit {
-    fn to_grams(&self) -> (f32, f32, f32) {
+    pub fn to_grams(&self) -> (f32, f32, f32) {
         const CALORIES_PER_CARB: f32 = 4.0;
         const CALORIES_PER_PROTEIN: f32 = 4.0;
         const CALORIES_PER_FAT: f32 = 9.0;
@@ -187,7 +202,7 @@ fn main() {
     println!("Considering a {} diet, the macros should be distributed as follows: carbs {}g, protein {}g, fat {}g", &diet, carbs, protein, fat);
 }
 
-fn caloric_treshold(person: Person) -> f32 {
+pub fn caloric_treshold(person: Person) -> f32 {
     const MEN_MULTIPLIERS: (f32, f32, f32, f32) = (88.362, 13.397, 4.799, 5.677);
     const FEMALE_MULTIPLIERS: (f32, f32, f32, f32) = (447.593, 9.247, 3.098, 4.330);
     const ACTIVITY_MULTIPLIERS: (f32, f32, f32, f32, f32) = (1.2, 1.375, 1.55, 1.725, 1.9);
@@ -232,7 +247,7 @@ fn caloric_treshold(person: Person) -> f32 {
     basal_metabolic_rate * activity_multiplier
 }
 
-fn caloric_intake(caloric_treshold: f32, goal: &Goal) -> CaloricIntake {
+pub fn caloric_intake(caloric_treshold: f32, goal: &Goal) -> CaloricIntake {
     let mut caloric_intake = CaloricIntake { min: 0.0, max: 0.0 };
 
     match *goal {
@@ -253,7 +268,7 @@ fn caloric_intake(caloric_treshold: f32, goal: &Goal) -> CaloricIntake {
     caloric_intake
 }
 
-fn macro_split(caloric_intake: CaloricIntake, diet: &Diet) -> MacroSplit {
+pub fn macro_split(caloric_intake: CaloricIntake, diet: &Diet) -> MacroSplit {
     match diet {
         Diet::Balanced => {
             return MacroSplit {
