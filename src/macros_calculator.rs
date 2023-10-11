@@ -171,36 +171,6 @@ impl MacroSplit {
         )
     }
 }
-fn main() {
-    let luca = Person {
-        name: String::from("Luca"),
-        age: 33,
-        gender: Gender::Male,
-        height: 173,
-        weight: 70,
-        activity: Activity::SuperActive,
-    };
-
-    println!("{}", luca);
-
-    let caloric_treshold = caloric_treshold(luca);
-
-    println!("Luca's caloric treshold is {}", caloric_treshold);
-
-    let goal = Goal::WeightLoss;
-
-    println!(
-        "Luca's caloric intake should be {} for {}",
-        caloric_intake(caloric_treshold, &goal),
-        goal
-    );
-
-    let diet = Diet::LowCarb;
-    let (carbs, protein, fat) =
-        macro_split(caloric_intake(caloric_treshold, &goal), &diet).to_grams();
-
-    println!("Considering a {} diet, the macros should be distributed as follows: carbs {}g, protein {}g, fat {}g", &diet, carbs, protein, fat);
-}
 
 pub fn caloric_treshold(person: Person) -> f32 {
     const MEN_MULTIPLIERS: (f32, f32, f32, f32) = (88.362, 13.397, 4.799, 5.677);
